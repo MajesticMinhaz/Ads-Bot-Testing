@@ -1,0 +1,70 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("DATABASE_URL")
+}
+
+// data models
+model Channels {
+  id                    BigInt   @id @default(autoincrement())
+  channelChatId         BigInt   @unique
+  channelName           String
+  channelUsername       String
+  channelStatusIsActive Boolean
+  created_at            DateTime @default(now())
+}
+
+model Groups {
+  id                  BigInt   @id @default(autoincrement())
+  groupName           String
+  groupChatId         BigInt   @unique
+  groupStatusIsActive Boolean
+  created_at          DateTime @default(now())
+}
+
+model UserInformation {
+  telegramUserId BigInt   @id @unique
+  isBot          Boolean
+  firstName      String
+  lastName       String?
+  username       String?
+  languageCode   String?
+  isAuthorized   Boolean  @default(false)
+  created_at     DateTime @default(now())
+}
+
+model Ads {
+  id         BigInt     @id @default(autoincrement())
+  name       String
+  enabled    Boolean    @default(false)
+  text       String?
+  created_at DateTime   @default(now())
+  AdsMedia   AdsMedia[]
+  AdsLink    AdsLink[]
+}
+
+model AdsMedia {
+  id         BigInt   @id @default(autoincrement())
+  ads        Ads      @relation(fields: [adsId], references: [id])
+  adsId      BigInt
+  fileId     BigInt   @unique
+  fileType   String
+  created_at DateTime @default(now())
+}
+
+model AdsLink {
+  id         BigInt   @id @default(autoincrement())
+  ads        Ads      @relation(fields: [adsId], references: [id])
+  adsId      BigInt
+  order      Int
+  text       String
+  url        String   @unique
+  created_at DateTime @default(now())
+}
