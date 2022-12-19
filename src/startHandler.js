@@ -5,6 +5,8 @@ const { loginMenu } = require("../keyboards/loginMenu");
 const startHandler = async (ctx) => {
     const { privateTypeInfo } = ctx.state;
     const { userFullName, isUserExistsInDB, isUserAuthorizedInDB } = privateTypeInfo;
+    
+    ctx.deleteMessage();
 
     try {
         const { type } = ctx.update.message.chat;
