@@ -20,12 +20,16 @@ const channelsHandler = async (ctx) => {
             }
         }));
 
+        const backButton = [
+            [ {text: `⏪ Back`, callback_data: 'backToMainMenu'} ]
+        ];
+
         ctx.replyWithPhoto(
             images[0],
             {
                 caption: "Here are your available channels and groups ...",
                 reply_markup: {
-                    inline_keyboard: channelButtons,
+                    inline_keyboard: channelButtons.concat(backButton),
                 }
             }
         )
