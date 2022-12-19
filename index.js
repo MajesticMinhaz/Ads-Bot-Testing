@@ -9,6 +9,7 @@ const { updateLog } = require("./middleware/updateLog");
 const { startHandler } = require('./src/startHandler');
 const { loginHandler } = require('./src/loginHandler');
 const { logoutHandler } = require('./src/logoutHandler');
+const { channelsHandler } = require('./src/channelsHandler');
 const GetUserPasswordScene = require('./scenes/PasswordInput.scene');
 
 
@@ -34,6 +35,7 @@ bot.start(startHandler);
 
 bot.action('login', loginHandler);
 bot.action('logout', logoutHandler);
+bot.action('channels', channelsHandler);
 bot.action('help', errorMessageHandler);
 bot.help(errorMessageHandler);
 bot.on(['text', 'sticker', 'photo', 'video', 'document', 'poll', 'music', 'location', 'contact'], errorMessageHandler);

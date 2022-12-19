@@ -99,6 +99,24 @@ const updateChannelInfo = async ({ channelChatId, channelName, channelUsername, 
     return updateChannel;
 };
 
+const getAllAvailableChannels = async () => {
+    const channels = await prisma.Channels.findMany({
+        where: {
+            channelStatusIsActive: true
+        }
+    });
+    return channels;
+};
+
+const getAllAvailableGroups = async () => {
+    const groups = await prisma.Groups.findMany({
+        where: {
+            groupStatusIsActive: true
+        }
+    });
+    return groups;
+};
+
 module.exports = {
     isUserExists,
     createUser,
@@ -106,5 +124,7 @@ module.exports = {
     makeUserAuthorized,
     makeUserUnAuthorized,
     updateGroupInfo,
-    updateChannelInfo
+    updateChannelInfo,
+    getAllAvailableChannels,
+    getAllAvailableGroups
 }
