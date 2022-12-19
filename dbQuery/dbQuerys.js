@@ -59,40 +59,44 @@ const createUser = async ({ telegramUserId, isBot, firstName, lastName, username
     return user;
 };
 
-const updateGroupInfo = async ({ groupName, groupChatId, groupStatusIsActive }) => { 
-    const upsertGroup = await prisma.Groups.upsert({
+const updateGroupInfo = async ({ name, chatId, isActive }) => { 
+    const upsertGroup = await prisma.Channels.upsert({
         where: { 
-            groupChatId
+            chatId
         },
         update: {
-            groupStatusIsActive, 
-            groupName
+            isActive, 
+            name,
+            isChannel: false
         },
         create: {
-            groupName,
-            groupChatId,
-            groupStatusIsActive
+            name,
+            chatId,
+            isActive,
+            isChannel: false,
         }
     });
 
     return upsertGroup;
 };
 
-const updateChannelInfo = async ({ channelChatId, channelName, channelUsername, channelStatusIsActive }) => {
+const updateChannelInfo = async ({ chatId, name, username, isActive }) => {
     const updateChannel = await prisma.Channels.upsert({
         where: {
-            channelChatId
+            chatId
         },
         update: {
-            channelName,
-            channelUsername,
-            channelStatusIsActive
+            name,
+            username,
+            isActive,
+            isChannel: true
         },
         create: {
-            channelChatId,
-            channelName,
-            channelUsername,
-            channelStatusIsActive
+            chatId,
+            name,
+            username,
+            isActive,
+            isChannel: true,
         }
     });
 
@@ -102,19 +106,10 @@ const updateChannelInfo = async ({ channelChatId, channelName, channelUsername, 
 const getAllAvailableChannels = async () => {
     const channels = await prisma.Channels.findMany({
         where: {
-            channelStatusIsActive: true
+            isActive: true
         }
     });
     return channels;
-};
-
-const getAllAvailableGroups = async () => {
-    const groups = await prisma.Groups.findMany({
-        where: {
-            groupStatusIsActive: true
-        }
-    });
-    return groups;
 };
 
 module.exports = {
@@ -125,6 +120,5 @@ module.exports = {
     makeUserUnAuthorized,
     updateGroupInfo,
     updateChannelInfo,
-    getAllAvailableChannels,
-    getAllAvailableGroups
+    getAllAvailableChannels
 }
