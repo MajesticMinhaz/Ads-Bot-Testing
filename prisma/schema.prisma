@@ -13,20 +13,13 @@ datasource db {
 
 // data models
 model Channels {
-  id                    BigInt   @id @default(autoincrement())
-  channelChatId         BigInt   @unique
-  channelName           String
-  channelUsername       String
-  channelStatusIsActive Boolean
-  created_at            DateTime @default(now())
-}
-
-model Groups {
-  id                  BigInt   @id @default(autoincrement())
-  groupName           String
-  groupChatId         BigInt   @unique
-  groupStatusIsActive Boolean
-  created_at          DateTime @default(now())
+  id         BigInt   @id @default(autoincrement())
+  chatId     BigInt   @unique
+  name       String
+  username   String?
+  isChannel  Boolean
+  isActive   Boolean
+  created_at DateTime @default(now())
 }
 
 model UserInformation {
