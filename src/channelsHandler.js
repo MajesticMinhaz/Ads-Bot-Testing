@@ -1,4 +1,4 @@
-const { getAllAvailableChannels, getAllAvailableGroups } = require('../dbQuery/dbQuerys');
+const { getAllAvailableChannels } = require('../dbQuery/dbQuerys');
 
 const channelsHandler = async (ctx) => {
     const images = [
@@ -9,34 +9,23 @@ const channelsHandler = async (ctx) => {
     ctx.deleteMessage();
 
     const channels = await getAllAvailableChannels();
-    const groups = await getAllAvailableGroups();
 
-    if (channels.length > 0 || groups.length > 0) {
-        const channelButtons = [];
-        const groupButtons = [];
-
-        channels.forEach((channel) => {
-            channelButtons.push(
-                [
-                    { text: `☀️ ${channel.channelName}`, callback_data: Number(channel.channelChatId).toString() }
-                ]
-            );
-        });
-
-        groups.forEach((group) => {
-            groupButtons.push(
-                [
-                    { text: `👥 ${group.groupName}`, callback_data: Number(group.groupChatId).toString() }
-                ]
-            );
-        });
+    if (channels.length > 0) {
+        const channelButtons = await Promise.all(channels.map(async ({ name, chatId, isChannel }) => {
+            
+            if (isChannel) {
+                return [ { text: `☀️ ${name}`, callback_data: Number(chatId).toString() } ]
+            } else {
+                return [ { text: `👥 ${name}`, callback_data: Number(chatId).toString() } ]
+            }
+        }));
 
         ctx.replyWithPhoto(
             images[0],
             {
                 caption: "Here are your available channels and groups ...",
                 reply_markup: {
-                    inline_keyboard: channelButtons.concat(groupButtons),
+                    inline_keyboard: channelButtons,
                 }
             }
         )
