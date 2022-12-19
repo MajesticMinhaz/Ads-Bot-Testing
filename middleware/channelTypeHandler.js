@@ -8,10 +8,10 @@ const channelTypeHandler = async (ctx, next) => {
         const { status } = new_chat_member;
 
         const channelInfo = {
-            channelName: title,
-            channelChatId: id,
-            channelUsername: username,
-            channelStatusIsActive: status === 'administrator' ? true : false
+            name: title,
+            chatId: id,
+            username,
+            isActive: status === 'administrator' ? true : false
         };
 
         await updateChannelInfo(channelInfo);
