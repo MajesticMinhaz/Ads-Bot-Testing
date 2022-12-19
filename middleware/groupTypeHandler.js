@@ -5,14 +5,14 @@ const groupLeftTypeHandler = async (ctx, next) => {
     const { message } = ctx.update;
 
     try {
-        const groupName = message.chat.title;
-        const groupChatId = message.chat.id;
-        const groupStatusIsActive = message.left_chat_member !== undefined ? false : true;
+        const name = message.chat.title;
+        const chatId = message.chat.id;
+        const isActive = message.left_chat_member !== undefined ? false : true;
 
         const groupInfo = {
-            groupName,
-            groupChatId,
-            groupStatusIsActive
+            name,
+            chatId,
+            isActive
         };
 
         await updateGroupInfo(groupInfo);
@@ -25,14 +25,14 @@ const groupJoinTypeHandler = async (ctx, next) => {
     const { message } = ctx.update;
 
     try {
-        const groupName = message.chat.title;
-        const groupChatId = message.chat.id;
-        const groupStatusIsActive = message.new_chat_member !== undefined ? true : false;
+        const name = message.chat.title;
+        const chatId = message.chat.id;
+        const isActive = message.new_chat_member !== undefined ? true : false;
 
         const groupInfo = {
-            groupName,
-            groupChatId,
-            groupStatusIsActive
+            name,
+            chatId,
+            isActive
         };
 
         await updateGroupInfo(groupInfo);
