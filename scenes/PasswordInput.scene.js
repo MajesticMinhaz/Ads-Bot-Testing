@@ -54,6 +54,7 @@ class GetUserPasswordScene {
           
         ctx.scene.leave();
       } else {
+        ctx.deleteMessage();
         ctx.replyWithPhoto(
           "https://cdn.pixabay.com/photo/2018/03/06/06/27/emoji-3202669_960_720.jpg",
           {
