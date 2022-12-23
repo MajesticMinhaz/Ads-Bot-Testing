@@ -1,4 +1,4 @@
-const { getAllAvailableChannels } = require('../dbQuery/dbQuerys');
+const { channelsKeyboard } = require('../keyboards/channelsMenu');
 
 const channelsHandler = async (ctx) => {
     const images = [
@@ -8,36 +8,26 @@ const channelsHandler = async (ctx) => {
 
     ctx.deleteMessage();
 
-    const channels = await getAllAvailableChannels();
+    const { keyboards, backButton } = await channelsKeyboard();
 
-    if (channels.length > 0) {
-        const channelButtons = await Promise.all(channels.map(async ({ name, chatId, isChannel }) => {
-            
-            if (isChannel) {
-                return [ { text: `☀️ ${name}`, callback_data: Number(chatId).toString() } ]
-            } else {
-                return [ { text: `👥 ${name}`, callback_data: Number(chatId).toString() } ]
-            }
-        }));
-
-        const backButton = [
-            [ {text: `⏪ Back`, callback_data: 'backToMainMenu'} ]
-        ];
-
+    if (!keyboards) {
+        ctx.replyWithPhoto(
+            images[1],
+            {
+                caption: "No channels and groups available...",
+                reply_markup: {
+                    inline_keyboard: backButton
+                }
+            },
+        );
+    } else {
         ctx.replyWithPhoto(
             images[0],
             {
                 caption: "Here are your available channels and groups ...",
                 reply_markup: {
-                    inline_keyboard: channelButtons.concat(backButton),
+                    inline_keyboard: keyboards.concat(backButton)
                 }
-            }
-        )
-    } else {
-        ctx.replyWithPhoto(
-            images[1],
-            {
-                caption: "No channels and groups available...",
             }
         )
     }
