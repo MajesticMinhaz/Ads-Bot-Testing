@@ -11,6 +11,7 @@ const { startHandler } = require('./src/startHandler');
 const { loginHandler } = require('./src/loginHandler');
 const { logoutHandler } = require('./src/logoutHandler');
 const { channelsHandler } = require('./src/channelsHandler');
+const { adsHandler } = require('./src/adsHandler');
 const { dynamicButtonHandler } = require('./src/dynamicButtonHandler');
 const GetUserPasswordScene = require('./scenes/PasswordInput.scene');
 
@@ -36,7 +37,8 @@ bot.help(errorMessageHandler);
 
 bot.action('login', loginHandler);
 bot.action('logout', logoutHandler);
-bot.action('channels', channelsHandler);
+bot.action(['channels', 'backToChannelsMenu'], channelsHandler);
+bot.action('ads', adsHandler)
 bot.action('backToMainMenu', backToMainMenuHandler);
 bot.action('help', errorMessageHandler);
 
