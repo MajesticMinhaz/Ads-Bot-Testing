@@ -135,6 +135,20 @@ const makeUnavailableChannel = async ({ chatId }) => {
     return channel;
 };
 
+const createOrUpdateAdName = async ({ name }) => {
+    const adName = await prisma.Ads.upsert({
+        where: {
+            name
+        },
+        update: {
+            name
+        },
+        create: {
+            name
+        }
+    });
+};
+
 module.exports = {
     isUserExists,
     createUser,
@@ -145,5 +159,6 @@ module.exports = {
     updateChannelInfo,
     getAllAvailableChannels,
     getChannelByChatId,
-    makeUnavailableChannel
+    makeUnavailableChannel,
+    createOrUpdateAdName
 }
