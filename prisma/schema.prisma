@@ -34,30 +34,12 @@ model UserInformation {
 }
 
 model Ads {
-  id         BigInt     @id @default(autoincrement())
-  name       String
-  enabled    Boolean    @default(false)
-  text       String?
-  created_at DateTime   @default(now())
-  AdsMedia   AdsMedia[]
-  AdsLink    AdsLink[]
-}
-
-model AdsMedia {
-  id         BigInt   @id @default(autoincrement())
-  ads        Ads      @relation(fields: [adsId], references: [id])
-  adsId      BigInt
-  fileId     BigInt   @unique
-  fileType   String
-  created_at DateTime @default(now())
-}
-
-model AdsLink {
-  id         BigInt   @id @default(autoincrement())
-  ads        Ads      @relation(fields: [adsId], references: [id])
-  adsId      BigInt
-  order      Int
-  text       String
-  url        String   @unique
+  id BigInt @id @default(autoincrement())
+  name String @unique
+  url String?
+  text String?
+  cronExpire String?
+  mediaInfo Json?
+  isEnabled Boolean @default(true)
   created_at DateTime @default(now())
 }
