@@ -10,10 +10,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "prisma": "^4.7.1"
+    "prisma": "^4.8.0"
   },
   "dependencies": {
-    "@prisma/client": "^4.7.1",
+    "@prisma/client": "^4.8.0",
     "dotenv": "^16.0.3",
     "telegraf": "^4.11.2",
     "telegraf-better-stage": "^1.0.1"
