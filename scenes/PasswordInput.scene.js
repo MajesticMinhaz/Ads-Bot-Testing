@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { BaseScene } = require('telegraf/scenes');
 const { makeUserAuthorized } = require('../dbQuery/dbQuerys');
 const { mainMenu } = require('../keyboards/mainMenu');
@@ -22,7 +23,7 @@ class GetUserPasswordScene {
       ctx.replyWithPhoto(
         "https://cdn.pixabay.com/photo/2018/03/27/17/25/cat-3266673__340.jpg",
         {
-          caption: 'You have canceled the login process. I\'m really sorry about that :(',
+          caption: 'You have canceled the login process. You can try it again :(',
           reply_markup: {
             inline_keyboard: loginMenu
           }
@@ -31,9 +32,9 @@ class GetUserPasswordScene {
     });
   
     userPasswordScene.on('text', async (ctx) => {
-      const userPassword = ctx.message.text;
+      const { text } = ctx.message;
   
-      if (this.adminPassword === userPassword) {
+      if (this.adminPassword === text) {
         ctx.deleteMessage();
         
         const userInfo = {
@@ -73,4 +74,7 @@ class GetUserPasswordScene {
   };
 };
 
-module.exports = GetUserPasswordScene;
+const getUserPasswordScene = new GetUserPasswordScene(process.env.PASSWORD);
+const getUserPasswordStage = getUserPasswordScene.getUserPassword();
+
+module.exports = { getUserPasswordStage };
